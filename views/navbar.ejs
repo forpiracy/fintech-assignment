@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nav Bar</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto" id="sign">
+            <li class="nav-item">
+                <a class="nav-link" id="logout" style="cursor: pointer;">Log Out</a>
+            </li>
+            <li class="nav-item">
+                <div class="nav-link" id="manageAccounts" style="cursor: pointer;">Manage Accounts</div>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav mr-auto" id="notSign">
+          <li class="nav-item">
+            <a class="nav-link" href="/signin">Sign In</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/signup">Sign Up</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <form id="redirectForm" action="/accounts" method="POST" style="display: none;">
+        <input type="hidden" name="token" id="tokenField">
+    </form>
+
+</body>
+<script>
+    
+    const notSign=document.getElementById('notSign');
+    const sign=document.getElementById('sign');
+    console.log(localStorage.getItem('token'));
+    if(localStorage.getItem('token')){
+      console.log(1);
+        sign.style.display='flex';
+        notSign.style.display='none';
+    }
+    else{
+        notSign.style.display='flex';
+        sign.style.display='none';
+    }
+
+    document.getElementById('manageAccounts').addEventListener('click', function(event) {
+        event.preventDefault();
+        const token = localStorage.getItem('token')
+        document.getElementById('tokenField').value = token;
+        document.getElementById('redirectForm').submit();
+    });
+
+    document.getElementById('logout').addEventListener('click', function(event) {
+        localStorage.removeItem('token');
+        window.location.href = "/";
+    })
+
+</script>
+</html>
